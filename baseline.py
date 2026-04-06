@@ -2,11 +2,17 @@ import os
 import json
 from openai import OpenAI
 from src.env import VulnTriageEnv
-from src.models import TriageAction
+from src.models import TriageActionz
+import sys
 
-# 1. Update this to use Groq's URL and look for your new secret
+# Safely grab the key and crash with a clear message if it's missing
+groq_key = os.environ.get("GROQ_API_KEY")
+if not groq_key:
+    print("CRITICAL ERROR: GROQ_API_KEY is completely missing from the environment variables!")
+    sys.exit(1)
+
 client = OpenAI(
-    api_key=os.environ.get("GROQ_API_KEY"),
+    api_key=groq_key,
     base_url="https://api.groq.com/openai/v1"
 )
 
@@ -22,7 +28,7 @@ def run_baseline():
         while not done:
             # 2. Update the model name here
             response = client.chat.completions.create(
-                model="llama3-70b-8192", # Groq's best model for this
+                model="llama-3.3-70b-versatile", # Groq's best model for this
                 response_format={ "type": "json_object" },
                 messages=[
                     {"role": "system", "content": f"You are a DevSecOps agent. Output a JSON action matching this schema: {TriageAction.model_json_schema()}"},
