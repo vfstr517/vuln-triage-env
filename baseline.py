@@ -4,8 +4,11 @@ from openai import OpenAI
 from src.env import VulnTriageEnv
 from src.models import TriageAction
 
-# Ensure you have OPENAI_API_KEY set in your environment variables
-client = OpenAI()
+# Initialize the client with Grok's base URL and look for a GROK API Key
+client = OpenAI(
+    api_key=os.environ.get("GROK_API_KEY"),
+    base_url="https://api.x.ai/v1"
+)
 
 def run_baseline():
     env = VulnTriageEnv(task_level="easy")
@@ -17,9 +20,9 @@ def run_baseline():
     while not done:
         print(f"\nCurrent Alerts: {[a.alert_id for a in obs.open_alerts]}")
         
-        # Ask the LLM what to do
+        # Ask Grok what to do
         response = client.chat.completions.create(
-            model="gpt-4o", # Or gpt-4-turbo
+            model="grok-2-latest", # <--- Update this to the Grok model you want to use
             response_format={ "type": "json_object" },
             messages=[
                 {"role": "system", "content": f"You are a DevSecOps agent. Review the observation and output a JSON action matching this schema: {TriageAction.model_json_schema()}"},
