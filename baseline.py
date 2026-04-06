@@ -2,7 +2,7 @@ import os
 import json
 from openai import OpenAI
 from src.env import VulnTriageEnv
-from src.models import TriageActionz
+from src.models import TriageAction
 import sys
 
 # Safely grab the key and crash with a clear message if it's missing
