@@ -21,7 +21,7 @@ def run_baseline():
         
         while not done:
             response = client.chat.completions.create(
-                model="grok-2-latest", 
+                model="grok-4-1-fast-non-reasoning", 
                 response_format={ "type": "json_object" },
                 messages=[
                     {"role": "system", "content": f"You are a DevSecOps agent. Output a JSON action matching this schema: {TriageAction.model_json_schema()}"},
