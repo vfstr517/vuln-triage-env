@@ -4,10 +4,10 @@ from openai import OpenAI
 from src.env import VulnTriageEnv
 from src.models import TriageAction
 
-# Initialize the client with Grok's base URL and look for a GROK API Key
+# 1. Update this to use Groq's URL and look for your new secret
 client = OpenAI(
-    api_key=os.environ.get("GROK_API_KEY"),
-    base_url="https://api.x.ai/v1"
+    api_key=os.environ.get("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
 )
 
 def run_baseline():
@@ -20,8 +20,9 @@ def run_baseline():
         done = False
         
         while not done:
+            # 2. Update the model name here
             response = client.chat.completions.create(
-                model="grok-4-1-fast-non-reasoning", 
+                model="llama3-70b-8192", # Groq's best model for this
                 response_format={ "type": "json_object" },
                 messages=[
                     {"role": "system", "content": f"You are a DevSecOps agent. Output a JSON action matching this schema: {TriageAction.model_json_schema()}"},
