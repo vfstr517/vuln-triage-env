@@ -1,0 +1,14 @@
+name: VulnTriageEnv
+version: "1.0.0"
+description: "A real-world environment where an agent acts as a DevSecOps engineer triaging vulnerability scanner alerts."
+action_space:
+  type: object
+  schema: "src.models.TriageAction"
+observation_space:
+  type: object
+  schema: "src.models.Observation"
+reward_range: [-1.0, 1.0]
+tags:
+  - security
+  - devops
+  - triage
