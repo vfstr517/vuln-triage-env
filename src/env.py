@@ -135,6 +135,7 @@ class VulnTriageEnv:
         return self.state()["observation"], Reward(value=reward_val, reasoning=reasoning), done, {}
 
     def state(self) -> dict:
+        raw_score = getattr(self, 'internal_score', getattr(self, 'score', 0.0))
         safe_score = max(0.01, min(0.99, self.score))
         return {
             "observation": Observation(
