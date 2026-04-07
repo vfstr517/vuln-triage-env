@@ -5,6 +5,14 @@ from src.env import VulnTriageEnv
 app = FastAPI(title="VulnTriageEnv Server")
 env = VulnTriageEnv()
 
+@app.get("/")
+def read_root():
+    return {
+        "status": "online",
+        "message": "VulnTriageEnv is running! Ready for OpenEnv evaluation.",
+        "endpoints": ["/reset", "/step", "/health"]
+    }
+
 # The grader sends a POST request with an empty JSON body '{}'
 @app.post("/reset")
 async def reset_env(request: Request):
