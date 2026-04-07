@@ -8,4 +8,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Run the baseline script as the default container command
-CMD ["python", "baseline.py"]
+# Change the last line to this:
+CMD ["python", "inference.py"]
