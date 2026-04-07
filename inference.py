@@ -5,18 +5,18 @@ from openai import OpenAI
 from src.env import VulnTriageEnv
 from src.models import TriageAction
 
-# 1. New Required Environment Variables mapped to Groq
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
-if not API_KEY:
-    print("CRITICAL ERROR: HF_TOKEN or API_KEY is completely missing from the environment variables!")
-    sys.exit(1)
-
+# 1. Required Environment Variables exactly as specified by checklist
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.groq.com/openai/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "llama-3.3-70b-versatile")
+HF_TOKEN = os.getenv("HF_TOKEN")
 BENCHMARK = "VulnTriageEnv"
 
+if not HF_TOKEN:
+    print("CRITICAL ERROR: HF_TOKEN is missing from the environment variables!")
+    sys.exit(1)
+
 client = OpenAI(
-    api_key=API_KEY,
+    api_key=HF_TOKEN,
     base_url=API_BASE_URL
 )
 
