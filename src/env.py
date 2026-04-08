@@ -136,7 +136,9 @@ class VulnTriageEnv:
 
     def state(self) -> dict:
         raw_score = getattr(self, 'internal_score', getattr(self, 'score', 0.0))
-        safe_score = max(0.01, min(0.99, self.score))
+        # Safely fetch the score, defaulting to 0.0 if it hasn't been set yet (like during reset)
+        current_score = getattr(self, 'score', getattr(self, 'internal_score', 0.0))
+        safe_score = max(0.01, min(0.99, current_score))
         return {
             "observation": Observation(
                 open_alerts=self.internal_state.get("alerts", []),
